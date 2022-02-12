@@ -1,7 +1,7 @@
 {
 	"name": "CaseRejiggler",
 	"author": "Jiblet",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"license": "NCSA Open Source",
 	"dependencies": {},
 	"akiVersion": "2.2.*",
