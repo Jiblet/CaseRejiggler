@@ -2,16 +2,18 @@
 This mod combines my SICC_Intel mod with some changes I wanted to make to the THICC Weapons case.
 
 ## Docs and SICC changes
-I was annoyed at having to choose between taking a Docs case or a SICC depending on what map I was going in to and what I planned to do in there; often neither case was entirely appropriate. So this mod started off by enabling both Intelligence folders and the new (as of 12.12) Keycard holder cases to be stored inside a S I C C organizational pouch.
+
+I was annoyed at having to choose between taking a Docs case or a SICC depending on what map I was going into and what I planned to do in there; often neither case was entirely appropriate. So this mod started off by enabling both Intelligence folders and the new (as of 12.12) Keycard holder cases to be stored inside a S I C C organizational pouch.
 
 Since then I've expanded it a little to include other items that fit in a Docs case but not a SICC, and vice versa. So with all the features enabled (see Config Settings) the Docs case and SICC pouches will both take exactly the same types of items. The only differences will be size (5x5 for the SICC and 4x4 for the Docs) and of course price.
 
-As the two cases are now so similar in function, I've added options to alter the size, shape and price of the cases, so that you can adjust the balance how you see fit. The provided config file makes the docs case long and thin, like it ***very clearly*** should be and adjusts the price down appropriately as you lose one square.
+As the two cases are now so similar in function, I've added options to alter the size, shape, and price of the cases, so that you can adjust the balance how you see fit. The provided config file makes the docs case long and thin, like it very clearly should be, and adjusts the price down appropriately as you lose one square.
 
 ## T H I C C weapons case changes
-TWCs are annoyingly expensive and irritatingly slim. I don't mind saving up, but since I tend to hoard guns I don't really want to have to buy 2 or 3 of these things... So lets make them a bit chunkier, and to compensate, well make them appropriately more expensive 😩
 
-No changes are made to the filtering of items that are able to go into the TWC
+TWCs are annoyingly expensive and irritatingly slim. I don't mind saving up, but since I tend to hoard guns I don't really want to have to buy 2 or 3 of these things... So let's make them a bit chunkier, and to compensate, well make them appropriately more expensive 😩
+
+No changes are made to the filtering of items that are able to go into the TWC.
 
 ---
 
