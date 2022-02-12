@@ -44,6 +44,24 @@
 			"V_cells": 10,
 			"Price_Multiplier": 1.0,
 			"filterIDs": ""
+		},
+		"5": {
+			"name": "XXXX FAKE XXXX",
+			"Enabled": true,
+			"id": "80087355",
+			"H_cells": 20,
+			"V_cells": 20,
+			"Price_Multiplier": 1.0,
+			"filterIDs": ""
+		},
+		"6": {
+			"name": "Item Case",
+			"Enabled": true,
+			"id": "59fb042886f7746c5005a7b2",
+			"H_cells": 10,
+			"V_cells": 10,
+			"Price_Multiplier": 1.0,
+			"filterIDs": ""
 		}
 	}
 }

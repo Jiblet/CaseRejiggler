@@ -22,22 +22,28 @@ class Mod {
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ----- Enabled - Begin the rejiggling -----`, "white", "green")
       }
       let counter = 0; //TODO: there must must must be a better way to iterate without this horseshit workaround
-      for (var item in config.Items) {
+      for (let item in config.Items) {
         counter++;
         let currentItem = config.Items[counter];
-        if (items[config.Items[counter].id] === undefined) {
+        if (items[config.Items[counter].id] == undefined) {
           Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Warning!!`, "white", "red");
           Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Please check ID ${currentItem.id}, item ${counter}, object ${currentItem}, is correct`, "white", "red");
           continue;
         }
-        
+
         if (config.Settings.Logging) {
           Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Rejigging ${currentItem.name}, ID: ${currentItem.id}`, "white", "green");
         }
         //DO ALL THE THINGS
-        this.addtoItemFilter(currentItem.id, currentItem.filterIDs);
-        this.setItemInternalSize(currentItem.id, currentItem.H_cells, currentItem.V_cells);
-        this.setItemPrice(currentItem.id, currentItem.Price_Multiplier);
+        if (currentItem.Enabled) {
+          this.addtoItemFilter(currentItem.id, currentItem.filterIDs);
+          this.setItemInternalSize(currentItem.id, currentItem.H_cells, currentItem.V_cells);
+          this.setItemPrice(currentItem.id, currentItem.Price_Multiplier);
+        } else {
+          if (config.Settings.Logging) {
+            Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ${currentItem.name}, ID: ${currentItem.id} is not enabled for rejigging; skipping.`, "red");
+          }
+        }
       }
     }
 
@@ -102,7 +108,7 @@ class Mod {
   }
 
   addtoItemFilter(id, additionalItems) {
-
+    // Should add a check to make sure the additional items are valid in the items DB
     if (additionalItems === "") {
       if (config.Settings.Logging) {
         Logger.log("No extra filter items", "white", "magenta");
