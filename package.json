@@ -1,0 +1,9 @@
+{
+	"name": "CaseResizer",
+	"author": "Jiblet",
+	"version": "1.0.0",
+	"license": "NCSA Open Source",
+	"dependencies": {},
+	"akiVersion": "2.2.*",
+	"main": "package.js"
+}
