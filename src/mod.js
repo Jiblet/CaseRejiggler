@@ -4,8 +4,10 @@ const config = require("../config.json");
 
 const database = DatabaseServer.tables;
 const items = database.templates.items;
+const global = database.locales.global;
 const fleaTable = database.templates.prices;
-const itemsTable = database.templates.handbook.Items;
+const handbook = database.templates.handbook.Items;
+
 
 const SICC = "5d235bb686f77443f4331278";
 const DOCS_CASE = "590c60fc86f77412b13fddcf";
@@ -26,12 +28,12 @@ class Mod {
   }
 
   /**
- * refactoring will need to create functions for:
- *  Resizing internals
- *  Changing price
- *  Altering item filters ???
- *
- */
+   * refactoring will need to create functions for:
+   *  Resizing internals
+   *  Changing price
+   *  Altering item filters ???
+   *
+   */
 
   load() {
     //Check we're enabled and rejig the cases using the values in config.json
@@ -40,9 +42,10 @@ class Mod {
         Logger.log(`[${modName}] : ----- Enabled - Begin the rejiggling -----`, "white", "green")
       }
 
-      //----- SICC Changes -----
-      //Check we're enabled and add the item IDs to the Filter array
+      //----- Refactored SICC Changes -----
+
       if (config.Change_SICC) {
+
         items[SICC]
           ._props
           .Grids[0]
@@ -51,30 +54,14 @@ class Mod {
           .Filter
           .push(INFO, KEYCARD_HOLDER_CASE, MAP);
 
-        //Now resize the case using the values in config.json
-        items[SICC]._props.Grids[0]._props.cellsH = config.SICC_H
-        items[SICC]._props.Grids[0]._props.cellsV = config.SICC_V
-        if (config.Logging) {
-          Logger.log(`[${modName}] : Resized SICC to: ${items[SICC]._props.Grids[0]._props.cellsH} x ${items[SICC]._props.Grids[0]._props.cellsV}`, "white", "blue")
-          Logger.log(`[${modName}] : -----`)
-        }
-
-        let fleaPrice = this.getFleaPrice(SICC)
-        let hbPrice = this.getHandbookPrice(SICC)
-        let newFleaPrice = Math.round(fleaPrice * config.SICC_Price_Multiplier) //rounding so we dont get weird numbers of rubles
-        let newHbPrice = Math.round(hbPrice * config.SICC_Price_Multiplier) //rounding so we dont get weird numbers of rubles
-
-        if (config.Logging) {
-          Logger.log(`[${modName}] : SICC flea price: : ${fleaPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : SICC NEW flea price : ${newFleaPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : SICC handbook price : ${hbPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : SICC NEW handbook price : ${newHbPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : -----`)
-        }
-
-        this.setHandbookPrice(SICC, newHbPrice);
-        this.setFleaPrice(SICC, newFleaPrice);
+        //Resize the case using the values in config.json
+        this.setItemInternalSize(SICC, config.SICC_H, config.SICC_V);
+        this.setItemPrice(SICC, config.SICC_Price_Multiplier);
       }
+
+
+
+
 
       //----- DOCS_CASE changes -----
       //Check we're enabled and add the item IDs to the Filter array
@@ -88,12 +75,7 @@ class Mod {
           .push(PROKILL, GOLD_SKULL, DOGTAG_BEAR, DOGTAG_USEC);
 
         //Resize the case using the values in config.json
-        items[DOCS_CASE]._props.Grids[0]._props.cellsH = config.Docs_H
-        items[DOCS_CASE]._props.Grids[0]._props.cellsV = config.Docs_V
-        if (config.Logging) {
-          Logger.log(`[${modName}] : Resized DOCS_CASE to: ${items[DOCS_CASE]._props.Grids[0]._props.cellsH} x ${items[DOCS_CASE]._props.Grids[0]._props.cellsV}`, "white", "blue")
-          Logger.log(`[${modName}] : -----`)
-        }
+        this.setItemInternalSize(DOCS_CASE, config.Docs_H, config.Docs_V);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Turns out I'd need to modify the icon size as well, as this looks really weird in game when set to 1x
@@ -129,12 +111,8 @@ class Mod {
       }
       // ----- THICC_WEAPONS_CASE changes -----
       if (config.Change_THICC_Weapons) {
-        items[THICC_WEAPONS_CASE]._props.Grids[0]._props.cellsH = config.THICC_Weapons_H
-        items[THICC_WEAPONS_CASE]._props.Grids[0]._props.cellsV = config.THICC_Weapons_V
-        if (config.Logging) {
-          Logger.log(`[${modName}] : Resized THICC_WEAPONS_CASE to: ${items[THICC_WEAPONS_CASE]._props.Grids[0]._props.cellsH} x ${items[THICC_WEAPONS_CASE]._props.Grids[0]._props.cellsV}`, "white", "blue")
-          Logger.log(`[${modName}] : -----`)
-        }
+        this.setItemInternalSize(THICC_WEAPONS_CASE, config.THICC_Weapons_H, config.THICC_Weapons_V);
+
         //Get Price
         let fleaPrice = this.getFleaPrice(THICC_WEAPONS_CASE)
         let hbPrice = this.getHandbookPrice(THICC_WEAPONS_CASE)
@@ -166,11 +144,9 @@ class Mod {
   }
 
 
-  //Useful functions for pricing
+  //functions for pricing
   getFleaPrice(id) {
-    const result = fleaTable[id];
-    // Checks Flea AVG price, if null, panic later
-    return result
+    return fleaTable[id];
   }
 
   setFleaPrice(id, newPrice) {
@@ -178,20 +154,59 @@ class Mod {
   }
 
   getHandbookPrice(id) {
-    for (let i in itemsTable) {
-      if (itemsTable[i].Id === id) {
-        return itemsTable[i].Price
+    for (let i in handbook) {
+      if (handbook[i].Id === id) {
+        return handbook[i].Price
       }
     }
   }
 
   setHandbookPrice(id, newPrice) {
-    for (let i in itemsTable) {
-      if (itemsTable[i].Id === id) {
-        itemsTable[i].Price = newPrice
+    for (let i in handbook) {
+      if (handbook[i].Id === id) {
+        handbook[i].Price = newPrice
       }
     }
   }
+
+  //Refactored Functions
+  setItemInternalSize(id, newHorizontal, newVertical) {
+    items[id]._props.Grids[0]._props.cellsH = newHorizontal;
+    items[id]._props.Grids[0]._props.cellsV = newVertical;
+    if (config.Logging) {
+      Logger.log(`[${modName}] : Resized ${id} to: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "white", "blue");
+      Logger.log(`[${modName}] : -----`);
+    }
+  }
+
+  setItemPrice(id, priceMultiplier) {
+    //Change the prices using the multiplier
+    let fleaPrice = this.getFleaPrice(id)
+    let hbPrice = this.getHandbookPrice(id)
+    let newFleaPrice = Math.round(fleaPrice * priceMultiplier) //rounding so we dont get weird numbers of rubles
+    let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird numbers of rubles
+
+    if (config.Logging) {
+      Logger.log(`[${modName}] : ${id} flea price: : ${fleaPrice}`, "white", "blue")
+      Logger.log(`[${modName}] : ${id} NEW flea price : ${newFleaPrice}`, "white", "blue")
+      Logger.log(`[${modName}] : ${id} handbook price : ${hbPrice}`, "white", "blue")
+      Logger.log(`[${modName}] : ${id} NEW handbook price : ${newHbPrice}`, "white", "blue")
+      Logger.log(`[${modName}] : -----`)
+    }
+
+    this.setHandbookPrice(id, newHbPrice);
+    this.setFleaPrice(id, newFleaPrice);
+  }
+
+  addtoItemFilter(id, additionalItems) {
+
+  }
+
+
+
+
+
+
 
 }
 
