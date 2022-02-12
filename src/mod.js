@@ -25,6 +25,14 @@ class Mod {
     ModLoader.onLoad[this.mod] = this.load.bind(this);
   }
 
+  /**
+ * refactoring will need to create functions for:
+ *  Resizing internals
+ *  Changing price
+ *  Altering item filters ???
+ *
+ */
+
   load() {
     //Check we're enabled and rejig the cases using the values in config.json
     if (config.Enabled) {
