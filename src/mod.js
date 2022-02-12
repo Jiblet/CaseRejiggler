@@ -29,10 +29,7 @@ class Mod {
 
   /**
    * refactoring will need to create functions for:
-   *  Resizing internals
-   *  Changing price
    *  Altering item filters ???
-   *
    */
 
   load() {
@@ -45,7 +42,6 @@ class Mod {
       //----- Refactored SICC Changes -----
 
       if (config.Change_SICC) {
-
         items[SICC]
           ._props
           .Grids[0]
@@ -54,14 +50,10 @@ class Mod {
           .Filter
           .push(INFO, KEYCARD_HOLDER_CASE, MAP);
 
-        //Resize the case using the values in config.json
+        //Resize and reprice the case using the values in config.json
         this.setItemInternalSize(SICC, config.SICC_H, config.SICC_V);
         this.setItemPrice(SICC, config.SICC_Price_Multiplier);
       }
-
-
-
-
 
       //----- DOCS_CASE changes -----
       //Check we're enabled and add the item IDs to the Filter array
@@ -74,11 +66,12 @@ class Mod {
           .Filter
           .push(PROKILL, GOLD_SKULL, DOGTAG_BEAR, DOGTAG_USEC);
 
-        //Resize the case using the values in config.json
+        //Resize and reprice the case using the values in config.json
         this.setItemInternalSize(DOCS_CASE, config.Docs_H, config.Docs_V);
+        this.setItemPrice(DOCS_CASE, config.Docs_Price_Multiplier);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Turns out I'd need to modify the icon size as well, as this looks really weird in game when set to 1x
+        // Turns out I'd need to modify the icon size as well, as this looks really weird in game when set to 1x1
         // Not today, champ. But I'll leave this here just in case.
         //
         // Change the Docs Case external size to 1x1
@@ -93,49 +86,14 @@ class Mod {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Set the price using the multiplier from config.json
-        let fleaPrice = this.getFleaPrice(DOCS_CASE)
-        let hbPrice = this.getHandbookPrice(DOCS_CASE)
-        let newFleaPrice = Math.round(fleaPrice * config.Docs_Price_Multiplier) //rounding so we dont get weird numbers of rubles
-        let newHbPrice = Math.round(hbPrice * config.Docs_Price_Multiplier) //rounding so we dont get weird numbers of rubles
 
-        if (config.Logging) {
-          Logger.log(`[${modName}] : DOCS_CASE flea price: : ${fleaPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : DOCS_CASE NEW flea price : ${newFleaPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : DOCS_CASE handbook price : ${hbPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : DOCS_CASE NEW handbook price : ${newHbPrice}`, "white", "blue")
-          Logger.log(`[${modName}] : -----`)
-        }
-        this.setHandbookPrice(DOCS_CASE, newHbPrice);
-        this.setFleaPrice(DOCS_CASE, newFleaPrice);
 
       }
       // ----- THICC_WEAPONS_CASE changes -----
       if (config.Change_THICC_Weapons) {
+        //Resize and reprice the case using the values in config.json
         this.setItemInternalSize(THICC_WEAPONS_CASE, config.THICC_Weapons_H, config.THICC_Weapons_V);
-
-        //Get Price
-        let fleaPrice = this.getFleaPrice(THICC_WEAPONS_CASE)
-        let hbPrice = this.getHandbookPrice(THICC_WEAPONS_CASE)
-        let newFleaPrice = Math.round(fleaPrice * config.THICC_Weapons_Price_Multiplier) //rounding so we dont get weird numbers of rubles
-        let newHbPrice = Math.round(hbPrice * config.THICC_Weapons_Price_Multiplier) //rounding so we dont get weird numbers of rubles
-
-        //Set new price
-        this.setHandbookPrice(THICC_WEAPONS_CASE, newHbPrice);
-        this.setFleaPrice(THICC_WEAPONS_CASE, newFleaPrice);
-
-        //Log
-        if (config.Logging) {
-          //Check new values with logging
-          let fleaPrice = this.getFleaPrice(THICC_WEAPONS_CASE)
-          let hbPrice = this.getHandbookPrice(THICC_WEAPONS_CASE)
-          if (config.Logging) {
-            Logger.log(`[${modName}] : THICC_WEAPONS_CASE case flea price: : ${fleaPrice}`, "white", "blue")
-            Logger.log(`[${modName}] : THICC_WEAPONS_CASE case NEW flea price : ${newFleaPrice}`, "white", "blue")
-            Logger.log(`[${modName}] : THICC_WEAPONS_CASE case handbook price : ${hbPrice}`, "white", "blue")
-            Logger.log(`[${modName}] : THICC_WEAPONS_CASE case NEW handbook price : ${newHbPrice}`, "white", "blue")
-            Logger.log(`[${modName}] : -----`)
-          }
-        }
+        this.setItemPrice(THICC_WEAPONS_CASE, config.THICC_Weapons_Price_Multiplier);
       }
     }
     if (config.Logging) {
@@ -144,15 +102,7 @@ class Mod {
   }
 
 
-  //functions for pricing
-  getFleaPrice(id) {
-    return fleaTable[id];
-  }
-
-  setFleaPrice(id, newPrice) {
-    fleaTable[id] = newPrice
-  }
-
+  //functions for Handbook pricing
   getHandbookPrice(id) {
     for (let i in handbook) {
       if (handbook[i].Id === id) {
@@ -181,33 +131,31 @@ class Mod {
 
   setItemPrice(id, priceMultiplier) {
     //Change the prices using the multiplier
-    let fleaPrice = this.getFleaPrice(id)
+    //Get current prices
+    let fleaPrice = fleaTable[id]
     let hbPrice = this.getHandbookPrice(id)
-    let newFleaPrice = Math.round(fleaPrice * priceMultiplier) //rounding so we dont get weird numbers of rubles
-    let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird numbers of rubles
+    //Modify prices
+    let newFleaPrice = Math.round(fleaPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
+    let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
 
     if (config.Logging) {
       Logger.log(`[${modName}] : ${id} flea price: : ${fleaPrice}`, "white", "blue")
-      Logger.log(`[${modName}] : ${id} NEW flea price : ${newFleaPrice}`, "white", "blue")
       Logger.log(`[${modName}] : ${id} handbook price : ${hbPrice}`, "white", "blue")
+      Logger.log(`[${modName}] : -----`)
+    }
+    //Set new prices
+    this.setHandbookPrice(id, newHbPrice);
+    fleaTable[id] = newFleaPrice
+    if (config.Logging) {
+      Logger.log(`[${modName}] : ${id} NEW flea price : ${newFleaPrice}`, "white", "blue")
       Logger.log(`[${modName}] : ${id} NEW handbook price : ${newHbPrice}`, "white", "blue")
       Logger.log(`[${modName}] : -----`)
     }
-
-    this.setHandbookPrice(id, newHbPrice);
-    this.setFleaPrice(id, newFleaPrice);
   }
 
   addtoItemFilter(id, additionalItems) {
-
+    Logger.log(`[${modName}] : -----`)
   }
-
-
-
-
-
-
-
 }
 
 module.exports.Mod = Mod;
