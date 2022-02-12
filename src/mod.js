@@ -40,15 +40,16 @@ class Mod {
       }
 
       //----- Refactored SICC Changes -----
-
+      //Check SICC is enabled for changes
       if (config.Change_SICC) {
-        items[SICC]
-          ._props
-          .Grids[0]
-          ._props
-          .filters[0]
-          .Filter
-          .push(INFO, KEYCARD_HOLDER_CASE, MAP);
+        //this.addtoItemFilter(SICC, [INFO, KEYCARD_HOLDER_CASE, MAP]);
+        // items[SICC]
+        //   ._props
+        //   .Grids[0]
+        //   ._props
+        //   .filters[0]
+        //   .Filter
+        //   .push(INFO, KEYCARD_HOLDER_CASE, MAP);
 
         //Resize and reprice the case using the values in config.json
         this.setItemInternalSize(SICC, config.SICC_H, config.SICC_V);
@@ -85,9 +86,6 @@ class Mod {
         // }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //Set the price using the multiplier from config.json
-
-
       }
       // ----- THICC_WEAPONS_CASE changes -----
       if (config.Change_THICC_Weapons) {
@@ -101,6 +99,8 @@ class Mod {
     }
   }
 
+
+  /** ====== Helper functions ====== */
 
   //functions for Handbook pricing
   getHandbookPrice(id) {
@@ -119,7 +119,6 @@ class Mod {
     }
   }
 
-  //Refactored Functions
   setItemInternalSize(id, newHorizontal, newVertical) {
     items[id]._props.Grids[0]._props.cellsH = newHorizontal;
     items[id]._props.Grids[0]._props.cellsV = newVertical;
@@ -154,7 +153,27 @@ class Mod {
   }
 
   addtoItemFilter(id, additionalItems) {
-    Logger.log(`[${modName}] : -----`)
+    if (config.Logging) {
+      Logger.log(`[${modName}] : Adding ${additionalItems} to filter of ${id}`, "white", "magenta")
+      Logger.log(`[${modName}] : Was ${items[id]._props.Grids[0]._props.filters[0].Filter}`)
+    }
+    //for each additionitem in additionalitems 
+    for (const itemKey in additionalItems) {
+      //push on to the array
+      items[id]
+        ._props
+        .Grids[0]
+        ._props
+        .filters[0]
+        .Filter
+        .push(additionalItems[itemKey]);
+
+    }
+
+    if (config.Logging) {
+      Logger.log(`[${modName}] : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`)
+      Logger.log(`[${modName}] : -----`)
+    }
   }
 }
 
