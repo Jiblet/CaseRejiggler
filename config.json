@@ -10,6 +10,7 @@
 	"SICC_V": 5,
 	"SICC_Price_Multiplier": 4,
 	"Change_Docs": true,
+	"Small_Docs": true,
 	"Docs_H": 3,
 	"Docs_V": 5,
 	"Docs_Price_Multiplier": 0.01
