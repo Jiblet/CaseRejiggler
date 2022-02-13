@@ -21,27 +21,32 @@ class Mod {
       if (config.Settings.Logging) {
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ----- Enabled - Begin the rejiggling -----`, "white", "green")
       }
-      let counter = 0; //TODO: there must must must be a better way to iterate without this horseshit workaround
+
+      const containers = []; //This might be madness but I know of no better way for iterate over JSON objects
       for (let item in config.Items) {
-        counter++;
-        let currentItem = config.Items[counter];
-        if (items[config.Items[counter].id] == undefined) {
-          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Warning!!`, "white", "red");
-          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Please check ID ${currentItem.id}, item ${counter}, object ${currentItem}, is correct`, "white", "red");
+        containers.push(item)
+      }
+
+      for (let container in containers) {
+        let currentItem = config.Items[containers[container]] //setup a currentItem object to pull params from
+
+        if (items[currentItem.id] == undefined) {
+          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Warning!!`, "white", "red"); //Not checking for logging enabled as this is catastrophic
+          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Object '${containers[container]}' with ID ${currentItem.id} is not found in SPT database - please check on https://db.sp-tarkov.com/`, "white", "red");
           continue;
         }
 
-        if (config.Settings.Logging) {
-          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Rejigging ${currentItem.name}, ID: ${currentItem.id}`, "white", "green");
-        }
         //DO ALL THE THINGS
+        if (config.Settings.Logging) {
+          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Rejigging '${containers[container]}', ID: ${currentItem.id}`, "white", "green");
+        }
         if (currentItem.Enabled) {
           this.addtoItemFilter(currentItem.id, currentItem.filterIDs);
           this.setItemInternalSize(currentItem.id, currentItem.H_cells, currentItem.V_cells);
           this.setItemPrice(currentItem.id, currentItem.Price_Multiplier);
         } else {
           if (config.Settings.Logging) {
-            Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ${currentItem.name}, ID: ${currentItem.id} is not enabled for rejigging; skipping.`, "red");
+            Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : '${containers[container]}', ID: ${currentItem.id} is not enabled for rejigging; skipping.`, "red");
           }
         }
       }
@@ -55,23 +60,6 @@ class Mod {
   }
 
   /** ====== Helper functions ====== */
-
-  //functions for Handbook pricing
-  getHandbookPrice(id) {
-    for (let i in handbook) {
-      if (handbook[i].Id === id) {
-        return handbook[i].Price
-      }
-    }
-  }
-
-  setHandbookPrice(id, newPrice) {
-    for (let i in handbook) {
-      if (handbook[i].Id === id) {
-        handbook[i].Price = newPrice
-      }
-    }
-  }
 
   setItemInternalSize(id, newHorizontal, newVertical) {
     items[id]._props.Grids[0]._props.cellsH = newHorizontal;
@@ -130,6 +118,22 @@ class Mod {
       if (config.Settings.Logging) {
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "yellow", "magenta")
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : -----`)
+      }
+    }
+  }
+  //functions for Handbook pricing
+  getHandbookPrice(id) {
+    for (let i in handbook) {
+      if (handbook[i].Id === id) {
+        return handbook[i].Price
+      }
+    }
+  }
+
+  setHandbookPrice(id, newPrice) {
+    for (let i in handbook) {
+      if (handbook[i].Id === id) {
+        handbook[i].Price = newPrice
       }
     }
   }
