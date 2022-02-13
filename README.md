@@ -1,7 +1,7 @@
 # Case Rejiggler
 This mod combines my SICC_Intel mod with some changes I wanted to make to the THICC Weapons case.
 
-## Docs and SICC changes
+## Docs case and SICC pouch changes
 
 I was annoyed at having to choose between taking a Docs case or a SICC depending on what map I was going into and what I planned to do in there; often neither case was entirely appropriate. So this mod started off by enabling both Intelligence folders and the new (as of 12.12) Keycard holder cases to be stored inside a S I C C organizational pouch.
 
