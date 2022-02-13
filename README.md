@@ -42,12 +42,16 @@ No changes are made to the filtering of items that are able to go into the TWC.
 ---
 
 #  **⚠️WARNINGS!⚠️**
-If you have an item in one of the cases that would usually be excluded from that case, then you turn that part of the mod off, you will lose that item to the Tarkov gods.
+* If you have an item in one of the cases that would usually be excluded from that case, then you turn that part of the mod off, you will lose that item to the Tarkov gods.
+  
+  For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"Change_SICC":false```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
 
-For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"Change_SICC":false```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
+* Make sure that any case are empty before resizing them _Especially_ before reducing them in size. 
+  If you have a full THICC Weapons Case that you then reduce in size... You may accidentally donate the contents to the Tarkov gods.
 
-I'd also make sure that any case are empty before resizing them _Especially_ before reducing them in size. Or once again you may acciderntally donate to the Tarkov gods.
+* Also, not quite so serious as above, but this might not play well with any mods that alter the Flea Market prices top get them close to live (eg. Lua-FleaMarketPriceUpdater), as they will undo any pricing balance tweaks you've made here.
 
 ## You have been warned.
 
-Also, not quite so serious as above, but this might not play well with any mods that alter the Flea Market prices top get them close to live (eg. Lua-FleaMarketPriceUpdater), as they will undo any pricing balance tweaks you've made here.
+Enjoy
+😍
