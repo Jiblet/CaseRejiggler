@@ -1,7 +1,7 @@
 # Case Rejiggler
 This mod combines my SICC_Intel mod with some changes I wanted to make to the THICC Weapons case.
 
-## Docs and SICC changes
+## Docs case and SICC pouch changes
 
 I was annoyed at having to choose between taking a Docs case or a SICC depending on what map I was going into and what I planned to do in there; often neither case was entirely appropriate. So this mod started off by enabling both Intelligence folders and the new (as of 12.12) Keycard holder cases to be stored inside a S I C C organizational pouch.
 
@@ -41,11 +41,17 @@ No changes are made to the filtering of items that are able to go into the TWC.
 ```
 ---
 
-#  **⚠️WARNING!⚠️**
-If you have an item in one of the cases that would usually be excluded from that case, then you turn that part of the mod off, you will lose that item to the Tarkov gods.
+#  **⚠️WARNINGS!⚠️**
+* If you have an item in one of the cases that would usually be excluded from that case, then you turn that part of the mod off, you will lose that item to the Tarkov gods.
+  
+  For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"Change_SICC":false```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
 
-For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"Change_SICC":false```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
+* Make sure that any case are empty before resizing them _Especially_ before reducing them in size. 
+  If you have a full THICC Weapons Case that you then reduce in size... You may accidentally donate the contents to the Tarkov gods.
+
+* Also, not quite so serious as above, but this might not play well with any mods that alter the Flea Market prices top get them close to live (eg. Lua-FleaMarketPriceUpdater), as they will undo any pricing balance tweaks you've made here.
 
 ## You have been warned.
 
-Also, not quite so serious as above, but this might not play well with any mods that alter the Flea Market prices top get them close to live (eg. Lua-FleaMarketPriceUpdater), as they will undo any pricing balance tweaks you've made here.
+Enjoy
+😍
