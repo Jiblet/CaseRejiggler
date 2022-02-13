@@ -128,7 +128,7 @@ class Mod {
           .push(additionalItems[itemKey]);
       }
       if (config.Settings.Logging) {
-        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "white", "magenta")
+        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "yellow", "magenta")
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : -----`)
       }
     }

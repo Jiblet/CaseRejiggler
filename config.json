@@ -16,7 +16,7 @@
 			"H_cells": 3,
 			"V_cells": 5,
 			"Price_Multiplier": 0.93,
-			"filterIDs": "5c1267ee86f77416ec610f72,5d235a5986f77443f6329bc6,59f32bb586f774757e1e8442,59f32c3b86f77472a31742f0"
+			"filterIDs": ["5c1267ee86f77416ec610f72", "5d235a5986f77443f6329bc6", "59f32bb586f774757e1e8442", "59f32c3b86f77472a31742f0"]
 		},
 		"2": {
 			"name": "SICC Case",
@@ -25,7 +25,7 @@
 			"H_cells": 5,
 			"V_cells": 5,
 			"Price_Multiplier": 1.2,
-			"filterIDs": "5448ecbe4bdc2d60728b4568,619cbf9e0a7c3a1a2731940a,567849dd4bdc2d150f8b456e"
+			"filterIDs": ["5448ecbe4bdc2d60728b4568", "619cbf9e0a7c3a1a2731940a", "567849dd4bdc2d150f8b456e"]
 		},
 		"3": {
 			"name": "THICC Weapons Case",
