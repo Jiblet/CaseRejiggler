@@ -41,10 +41,12 @@ No changes are made to the filtering of items that are able to go into the TWC.
 ```
 ---
 
-#  **⚠️WARNING!⚠️**
+#  **⚠️WARNINGS!⚠️**
 If you have an item in one of the cases that would usually be excluded from that case, then you turn that part of the mod off, you will lose that item to the Tarkov gods.
 
 For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"Change_SICC":false```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
+
+I'd also make sure that any case are empty before resizing them _Especially_ before reducing them in size. Or once again you may acciderntally donate to the Tarkov gods.
 
 ## You have been warned.
 
