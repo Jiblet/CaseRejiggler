@@ -56,23 +56,6 @@ class Mod {
 
   /** ====== Helper functions ====== */
 
-  //functions for Handbook pricing
-  getHandbookPrice(id) {
-    for (let i in handbook) {
-      if (handbook[i].Id === id) {
-        return handbook[i].Price
-      }
-    }
-  }
-
-  setHandbookPrice(id, newPrice) {
-    for (let i in handbook) {
-      if (handbook[i].Id === id) {
-        handbook[i].Price = newPrice
-      }
-    }
-  }
-
   setItemInternalSize(id, newHorizontal, newVertical) {
     items[id]._props.Grids[0]._props.cellsH = newHorizontal;
     items[id]._props.Grids[0]._props.cellsV = newVertical;
@@ -130,6 +113,22 @@ class Mod {
       if (config.Settings.Logging) {
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "yellow", "magenta")
         Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : -----`)
+      }
+    }
+  }
+  //functions for Handbook pricing
+  getHandbookPrice(id) {
+    for (let i in handbook) {
+      if (handbook[i].Id === id) {
+        return handbook[i].Price
+      }
+    }
+  }
+
+  setHandbookPrice(id, newPrice) {
+    for (let i in handbook) {
+      if (handbook[i].Id === id) {
+        handbook[i].Price = newPrice
       }
     }
   }
