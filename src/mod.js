@@ -24,7 +24,7 @@ class Mod {
     //Check we're enabled in config and rejig the cases using the values in config.json
     if (config.Settings.Enabled) {
       if (logging) {
-        Logger.log(`{[${modName} : ${version}]} : ----- Enabled - Begin the rejigging -----`, "white", "green")
+        Logger.log(`{[${modName} : ${version}]} : ----- Enabled - Begin the rejiggling -----`, "white", "green")
       }
 
       for (let item in JSONItems) {
@@ -39,28 +39,28 @@ class Mod {
 
         //DO ALL THE THINGS
         if (logging) {
-          Logger.log(`{[${modName} : ${version}]} : Rejigging '${item}', ID: ${currentItem.id}`, "green");
+          Logger.log(`{[${modName} : ${version}]} : Rejiggling '${item}', ID: ${currentItem.id}`, "green");
         }
         if (currentItem.Enabled) {
           this.addToItemFilter(currentItem.id, currentItem.filterIDs);
           this.setItemInternalSize(currentItem.id, currentItem.H_cells, currentItem.V_cells);
           this.setItemPrice(currentItem.id, currentItem.Price_Multiplier);
         } else {
-          Logger.log(`{[${modName} : ${version}]} : WARNING : '${item}', ID: ${currentItem.id} is not enabled for rejigging; skipped.`, "red"); //Warn without checking logging
+          Logger.log(`{[${modName} : ${version}]} : WARNING : '${item}', ID: ${currentItem.id} is not enabled for rejiggling; skipped.`, "red"); //Warn without checking logging
         }
         if (logging) {
-          Logger.log(`{[${modName} : ${version}]} : Rejigging of '${item}', ID: ${currentItem.id} completed`, "green");
+          Logger.log(`{[${modName} : ${version}]} : Rejiggling of '${item}', ID: ${currentItem.id} completed`, "green");
           Logger.log(`{[${modName} : ${version}]} : -----`);
         }
       }
     } else { //config.json has Settings.Enabled flag set to false so we're out of here.
-      Logger.log(`[${modName} : ${version}] : ----- Disabled in config.json - Skipping all rejigging -----`, "red")
+      Logger.log(`[${modName} : ${version}] : ----- Disabled in config.json - Skipping all rejiggling -----`, "red")
       return;
     }
 
     //Work Complete.
     if (logging) {
-      Logger.log(`{[${modName} : ${version}]} : ----- Rejigging complete -----`, "white", "green")
+      Logger.log(`{[${modName} : ${version}]} : ----- Rejiggling complete -----`, "white", "green")
     }
   }
 
