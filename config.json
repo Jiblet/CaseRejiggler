@@ -1,7 +1,7 @@
 {
 	"Settings": {
 		"Enabled": true,
-		"Logging": false
+		"Logging": true
 	},
 	"Instructions": {
 		"1": "Find item number on https://items.sp-tarkov.com/ and put on left side in double quotes",
