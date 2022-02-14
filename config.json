@@ -1,7 +1,7 @@
 {
 	"Settings": {
 		"Enabled": true,
-		"Logging": true
+		"Logging": false
 	},
 	"Instructions": {
 		"1": "Find item number on https://items.sp-tarkov.com/ and put on left side in double quotes",
@@ -14,7 +14,7 @@
 			"id": "590c60fc86f77412b13fddcf",
 			"H_cells": 3,
 			"V_cells": 5,
-			"Price_Multiplier": 0.93,
+			"Price_Multiplier": 0.000000093,
 			"filterIDs": ["5c1267ee86f77416ec610f72", "5d235a5986f77443f6329bc6", "59f32bb586f774757e1e8442", "59f32c3b86f77472a31742f0"]
 		},
 		"SICC Case": {
@@ -22,13 +22,13 @@
 			"id": "5d235bb686f77443f4331278",
 			"H_cells": 5,
 			"V_cells": 5,
-			"Price_Multiplier": 1.2,
+			"Price_Multiplier": 111.2,
 			"filterIDs": ["5448ecbe4bdc2d60728b4568", "FISHFACE", "619cbf9e0a7c3a1a2731940a", "567849dd4bdc2d150f8b456e", "slartibartfarst"]
 		},
 		"THICC Weapons Case": {
-			"Enabled": false,
+			"Enabled": true,
 			"id": "5b6d9ce188a4501afc1b2b25",
-			"H_cells": 8,
+			"H_cells": -8,
 			"V_cells": 15,
 			"Price_Multiplier": 1.3,
 			"filterIDs": ""

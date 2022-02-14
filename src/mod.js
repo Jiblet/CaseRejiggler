@@ -31,7 +31,7 @@ class Mod {
       for (let item in JSONItems) {
         let currentItem = JSONItems[item] //setup a currentItem object to pull params from
         if (items[currentItem.id] == undefined) {
-          Logger.log(`{[${modName} : ${version}]} : ERROR! : Item '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
+          Logger.log(`{[${modName} : ${version}]} : ERROR : Item '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
           if (logging) {
             const logging = config.Settings.Logging;
             Logger.log(`{[${modName} : ${version}]} : -----`); //I know, I know.
@@ -74,44 +74,53 @@ class Mod {
 
   setItemInternalSize(id, newHorizontal, newVertical) { //TODO Verify if integers in reasonable range (1 - 15? 20?), vomit exceptions //IF were making it smaller we should shout
     //Verify inputs
-    this.checkCellSize(items[id]._props.Grids[0]._props.cellsH, newHorizontal)
-    this.checkCellSize(items[id]._props.Grids[0]._props.cellsV, newVertical)
+    if (
+      this.checkCellSize(items[id]._props.Grids[0]._props.cellsH, newHorizontal) &&
+      this.checkCellSize(items[id]._props.Grids[0]._props.cellsV, newVertical)) {
 
-    if (logging) {
-      const logging = config.Settings.Logging;
-      Logger.log(`{[${modName} : ${version}]} : Resized ${id} from: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "blue");
-    }
-    items[id]._props.Grids[0]._props.cellsH = newHorizontal;
-    items[id]._props.Grids[0]._props.cellsV = newVertical;
-    if (logging) {
-      const logging = config.Settings.Logging;
-      Logger.log(`{[${modName} : ${version}]} : Resized ${id} to: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "cyan");
+      if (logging) {
+        const logging = config.Settings.Logging;
+        Logger.log(`{[${modName} : ${version}]} : Resized ${id} from: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "blue");
+      }
+      items[id]._props.Grids[0]._props.cellsH = newHorizontal;
+      items[id]._props.Grids[0]._props.cellsV = newVertical;
+      if (logging) {
+        const logging = config.Settings.Logging;
+        Logger.log(`{[${modName} : ${version}]} : Resized ${id} to: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "cyan");
+      }
+    } else {
+      Logger.log(`{[${modName} : ${version}]} : ERROR : Skipping resize for ${id}! Turn on logging in config.json for more details.`, "white", "red");
     }
   }
 
-  setItemPrice(id, priceMultiplier) { //TODO Verify positive numeric in reasonable range (0.001 - 10), vomit exceptions
+  setItemPrice(id, priceMultiplier) {
+    // Verify the multiplier is a number in reasonable range (0.001 - 10).
+    if (this.checkPriceMultiplier(priceMultiplier)) {
 
-    //This could be more concise, but keeping it longhand lets you log each step to see where you went wrong...
-    //Get current prices
-    let fleaPrice = fleaTable[id]
-    let hbPrice = this.getHandbookPrice(id)
+      //This could be more concise, but keeping it longhand lets you log each step to see where you went wrong...
+      //Get current prices
+      let fleaPrice = fleaTable[id]
+      let hbPrice = this.getHandbookPrice(id)
 
-    //Modify prices using multiplier
-    let newFleaPrice = Math.round(fleaPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
-    let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
+      //Modify prices using multiplier
+      let newFleaPrice = Math.round(fleaPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
+      let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
 
-    if (logging) {
-      const logging = config.Settings.Logging;
-      Logger.log(`{[${modName} : ${version}]} : ${id} flea price: : ${fleaPrice}`, "blue")
-      Logger.log(`{[${modName} : ${version}]} : ${id} handbook price : ${hbPrice}`, "blue")
-    }
+      if (logging) {
+        const logging = config.Settings.Logging;
+        Logger.log(`{[${modName} : ${version}]} : ${id} flea price: : ${fleaPrice}`, "blue")
+        Logger.log(`{[${modName} : ${version}]} : ${id} handbook price : ${hbPrice}`, "blue")
+      }
 
-    //Set new prices
-    this.setHandbookPrice(id, newHbPrice);
-    fleaTable[id] = newFleaPrice
-    if (logging) {
-      Logger.log(`{[${modName} : ${version}]} : ${id} NEW flea price : ${newFleaPrice}`, "cyan")
-      Logger.log(`{[${modName} : ${version}]} : ${id} NEW handbook price : ${newHbPrice}`, "cyan")
+      //Set new prices
+      this.setHandbookPrice(id, newHbPrice);
+      fleaTable[id] = newFleaPrice
+      if (logging) {
+        Logger.log(`{[${modName} : ${version}]} : ${id} NEW flea price : ${newFleaPrice}`, "cyan")
+        Logger.log(`{[${modName} : ${version}]} : ${id} NEW handbook price : ${newHbPrice}`, "cyan")
+      }
+    } else {
+      Logger.log(`{[${modName} : ${version}]} : ERROR : Skipping Price Multiplier for ${id}! Turn on logging in config.json for more details.`, "white", "red");
     }
   }
 
@@ -131,7 +140,7 @@ class Mod {
       //validate the items in the additional items list against SPT items DB
       for (const itemKey in additionalItems) {
         if (items[additionalItems[itemKey]] == undefined) {
-          Logger.log(`{[${modName} : ${version}]} : ERROR! : Additional Filter Object with ID '${additionalItems[itemKey]}' is not found in SPT database; skipped - please check ID on https://db.sp-tarkov.com/`, "white", "red");
+          Logger.log(`{[${modName} : ${version}]} : ERROR : Additional Filter Object with ID '${additionalItems[itemKey]}' is not found in SPT database; skipped this one - please check ID on https://db.sp-tarkov.com/`, "white", "red");
           continue; //log the error then skip this undefined item
         }
         items[id]
@@ -167,26 +176,39 @@ class Mod {
 
   checkCellSize(oldVal, newVal) {
     if (Number.isInteger(newVal)) {
-      Logger.log(`{[${modName} : ${version}]} : Resize value: ${newVal} is a number!`);
       if ((newVal >= 1) && (newVal <= 15)) {
-        Logger.log(`{[${modName} : ${version}]} : New Cell Size Value ${newVal} is IN range 1-15`);
         if (newVal >= oldVal) {
-          Logger.log(`{[${modName} : ${version}]} : New Cell Size Value ${newVal} is equal to or larger than old Value of ${oldVal}`);
           return true
         } else {
-          Logger.log(`{[${modName} : ${version}]} : WARNING: New Cell Size value of ${newVal} is equal to or larger than old Value of ${oldVal}, be careful or be poor!`, "red");
+          if (logging) {Logger.log(`{[${modName} : ${version}]} : WARNING: New Cell Size value of ${newVal} is equal to or larger than old Value of ${oldVal}, be careful or be poor!`, "red");}
           return true
         }
       } else {
-        Logger.log(`{[${modName} : ${version}]} : WARNING: Cell Size value: ${newVal} is out of range 1-15, preventing this from getting silly.`, "red");
+        Logger.log(`{[${modName} : ${version}]} : ERROR : Cell Size value: ${newVal} is out of range 1-15, preventing this from getting silly. Skipped.`, "white", "red");
         return false
       }
     } else {
-      Logger.log(`{[${modName} : ${version}]} : WARNING: Cell Size value: ${newVal} is NOT a number; skipping.`, "red");
+      Logger.log(`{[${modName} : ${version}]} : ERROR : Cell Size value: ${newVal} is NOT a number; skipping.`, "white", "red");
       return false
     }
   }
 
+  checkPriceMultiplier(val) {
+    //Verify the multiplier is a number in reasonable range (0.001 - 10).
+    if (Number.isFinite(val)) {
+      if ((val >= 0.001) && (val <= 10)) {
+        return true
+      } else {
+        if (logging) {Logger.log(`{[${modName} : ${version}]} : WARNING: Price Multiplier value: ${val} is out of range 0.001-10, preventing this from getting silly. Skipped.`, "red");}
+        return false
+      }
+    } else {
+      if (logging) {
+        Logger.log(`{[${modName} : ${version}]} : WARNING: Price Multiplier value: ${val} is NOT a number; skipping.`, "red");
+      }
+      return false
+    }
+  }
 
 }
 
