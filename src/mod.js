@@ -27,10 +27,8 @@ class Mod {
 
       for (let item in JSONItems) {
         let currentItem = JSONItems[item] //setup a currentItem object to pull params from
-
-        //TODO Refactor this and reuse for error id validation
         if (items[currentItem.id] == undefined) {
-          Logger.log(`{[${modName} : ${version}]} : ERROR! : Object '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
+          Logger.log(`{[${modName} : ${version}]} : ERROR! : Item '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
           continue;
         }
 
@@ -43,7 +41,7 @@ class Mod {
           this.setItemInternalSize(currentItem.id, currentItem.H_cells, currentItem.V_cells);
           this.setItemPrice(currentItem.id, currentItem.Price_Multiplier);
         } else {
-          Logger.log(`{[${modName} : ${version}]} : WARNING : '${item}', ID: ${currentItem.id} is not enabled for rejigging; skipping.`, "red"); //Warn without checking logging
+          Logger.log(`{[${modName} : ${version}]} : WARNING : '${item}', ID: ${currentItem.id} is not enabled for rejigging; skipped.`, "red"); //Warn without checking logging
         }
       }
     }
@@ -67,7 +65,7 @@ class Mod {
   }
 
   setItemPrice(id, priceMultiplier) { //TODO Verify positive numeric in reasonable range (0.001 - 10), vomit exceptions
-    
+
     //This could be more concise, but keeping it longhand lets you log each step to see where you went wrong...
     //Get current prices
     let fleaPrice = fleaTable[id]
@@ -102,7 +100,12 @@ class Mod {
         Logger.log(`{[${modName} : ${version}]} : Adding ${additionalItems} to filter of ${id}`, "white", "magenta")
         Logger.log(`{[${modName} : ${version}]} : Was ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "white", "magenta")
       }
+      //validate the items in the additional items list against SPT items DB
       for (const itemKey in additionalItems) {
+        if (items[additionalItems[itemKey]] == undefined){
+          Logger.log(`{[${modName} : ${version}]} : ERROR! : Additional Filter Object with ID '${additionalItems[itemKey]}' is not found in SPT database; skipped - please check ID on https://db.sp-tarkov.com/`, "white", "red");
+          continue;//log the error then skip this undefined item
+        }
         items[id]
           ._props
           .Grids[0]
