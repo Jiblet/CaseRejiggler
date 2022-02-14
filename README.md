@@ -1,6 +1,8 @@
 # Case Rejiggler
 This mod combines my SICC_Intel mod with some changes I wanted to make to the THICC Weapons case.
 
+Then when I went to make one further change, I decided to rewrite and enormously over engineer it to make it extensible via the config.json file by the end user. **You're welcome!**
+
 ## Docs case and SICC pouch changes
 
 I was annoyed at having to choose between taking a Docs case or a SICC depending on what map I was going into and what I planned to do in there; often neither case was entirely appropriate. So this mod started off by enabling both Intelligence folders and the new (as of 12.12) Keycard holder cases to be stored inside a S I C C organizational pouch.
@@ -9,49 +11,74 @@ Since then I've expanded it a little to include other items that fit in a Docs c
 
 As the two cases are now so similar in function, I've added options to alter the size, shape, and price of the cases, so that you can adjust the balance how you see fit. The provided config file makes the docs case long and thin, like it very clearly should be, and adjusts the price down appropriately as you lose one square.
 
-## T H I C C weapons case changes
+## THICC weapons case changes
 
 TWCs are annoyingly expensive and irritatingly slim. I don't mind saving up, but since I tend to hoard guns I don't really want to have to buy 2 or 3 of these things... So let's make them a bit chunkier, and to compensate, well make them appropriately more expensive 😩
 
 No changes are made to the filtering of items that are able to go into the TWC.
+
+## Weapons and Items case changes
+I was annoyed that these were slightly too small to be really useful. So I've made them larger (yay!) and appropriately more expensive (boo!).
 
 ---
 
 
 <a id="configsettings"></a>
 ## Config Settings:
-```javascript
-"Enabled": true,                        //  true/false - Determines if the mod does anything at all or not
-"Logging": false,                       //  true/false - turn on/off debug logging to the console incase you're having trouble
 
-"Change_THICC_Weapons": true,           //  true/false - Determines if we should make any changes to the THICC Weapons Case at all
-"THICC_Weapons_H": 8,                   //  Game default 6 - Set the horizontal size of the THICC Weapons Case
-"THICC_Weapons_V": 15,                  //  Game default 15 - Set the vertical size of the THICC Weapons Case
-"THICC_Weapons_Price_Multiplier": 1.3,  //  Default 1.3 - Prices of the THICC WC in the Flea and the handbook will be multiplied by this to balance changes
+The ```config.json``` file is split out into a few sections:
 
-"Change_SICC": true,                    //  true/false - Determines if we should make any changes to the SICC Organizational Pouch at all
-"SICC_H": 5,                            //  integer - game default 5 - Set the horizontal size of the SICC pouch
-"SICC_V": 5,                            //  integer - game default 5 - Set the vertical size of the SICC pouch
-"SICC_Price_Multiplier": 1.2,           //  Default 1.2 - Prices of the SICC pouch in the Flea and the handbook will be multiplied by this to balance changes
+* **Settings**
+  * ```"Enabled"``` | true/false | Determines if the mod does anything at all or not
+  * ```"Logging"``` | true/false | turn on/off debug logging to the console incase you're having trouble - 🌈!
 
-"Change_Docs": true,                    //  true/false - Determines if we should make any changes to the Documents Case at all
-"Docs_H": 3,                            //  Game default 4 - Set the horizontal size of the Documents Case
-"Docs_V": 5,                            //  Game default 4 - Set the vertical size of the Documents Case
-"Docs_Price_Multiplier": 0.93           //  Default 0.93 - Prices of the Docs Case in the Flea and the handbook will be multiplied by this to balance changes
-```
+* **Instructions**
+  * Hopefully useful instructions based on these but in situ in the file
+
+* **Items**
+  * ```"Enabled"```
+    * true/false
+    * Allows you to skip cases individually if you need to. Useful for debugging.
+  * ```"id"```
+    * Use https://items.sp-tarkov.com/ to find ID of this item you want to rejig.
+  * ```"H_Cells"``` | * How wide you want the case to be internally.
+    * Min 1, Max 15 - can't have you going nuts and I've no idea what Tarkov might do if you go **too** big.
+    * Must be a whole number, no double quotes here or it'll think its a string.
+    * Be careful if you're making it smaller than normal. See Warnings.
+
+  * ```"V_Cells"``` | Integer
+    * How high you want the case to be internally.
+    * Min 1, Max 15 - can't have you going nuts and I've no idea what Tarkov might do if you go **too** big.
+    * Must be a whole number, no double quotes here or it'll think its a string.
+    * Be careful if you're making it smaller than normal. See Warnings.
+  * ```Price_Multiplier```
+    * The new price of this case will be the original price multiplied by this. Use to help balance if you make a case much bigger/more useful, or the reverse.
+    * The value must be between **0.01** and **10**, just to stop you going mad.
+  * ```filterIDs```
+    * Make sure this is an array of comma separated IDs - Use https://items.sp-tarkov.com/ to find IDs - no trailing comma.
+
+---
+
+# Adding another case:
+If you'd like to add another case to the list, you should be able to work out how pretty easily, but roughly:
+1. Copy an existing case in the items list.
+2. Add it to the end of the list - watch your commas! THe final item shouldn't have a comma after it.
+3. Use https://items.sp-tarkov.com/to get the item ID.
+4. Change Settings.logging to true, or just 🤞cross your fingers🤞 and hope for the best. There's a good chance you'll get lucky, but if not there's a ton of logging that should help you.
+
 ---
 
 #  **⚠️WARNINGS!⚠️**
 * If you have an item in one of the cases that would usually be excluded from that case, then you turn that part of the mod off, you will lose that item to the Tarkov gods.
   
-  For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"Change_SICC":false```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
+  For example, if you have an Intelligence Folder inside the SICC Pouch and you set ```"filterIDs"``` to not include ```'5448ecbe4bdc2d60728b4568'```, **Tarkov will eat your Intelligence folder** and you will be sad. And even more poor.
 
 * Make sure that any case are empty before resizing them _Especially_ before reducing them in size. 
   If you have a full THICC Weapons Case that you then reduce in size... You may accidentally donate the contents to the Tarkov gods.
 
 * Also, not quite so serious as above, but this might not play well with any mods that alter the Flea Market prices top get them close to live (eg. Lua-FleaMarketPriceUpdater), as they will undo any pricing balance tweaks you've made here.
 
-## You have been warned.
+### **You have been warned.**
 
-Enjoy
+Enjoy!
 😍
