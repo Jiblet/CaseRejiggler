@@ -1,17 +1,20 @@
 "use strict";
-const modName = "CaseRejiggler";
 const config = require("../config.json");
+const mod = require("../package.json");
 
+const modName = mod.name;
+const version = mod.version;
+
+const JSONItems = config.Items;
 const database = DatabaseServer.tables;
 const items = database.templates.items;
-const global = database.locales.global; //Failed attempt to pull item names in to logging. Maybe one day.
 const fleaTable = database.templates.prices;
 const handbook = database.templates.handbook.Items;
 
 class Mod {
   constructor() {
     this.mod = require("../package.json");
-    Logger.info(`Loading: ${this.mod.name} : ${this.mod.version}`);
+    Logger.info(`Loading: ${modName} : ${version}`);
     ModLoader.onLoad[this.mod] = this.load.bind(this);
   }
 
@@ -19,54 +22,46 @@ class Mod {
     //Check we're enabled in config and rejig the cases using the values in config.json
     if (config.Settings.Enabled) {
       if (config.Settings.Logging) {
-        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ----- Enabled - Begin the rejiggling -----`, "white", "green")
+        Logger.log(`{[${modName} : ${version}]} : ----- Enabled - Begin the rejiggling -----`, "white", "green")
       }
 
-      const containers = []; //This might be madness but I know of no better way for iterate over JSON objects
-      for (let item in config.Items) {
-        containers.push(item)
-      }
-
-      for (let container in containers) {
-        let currentItem = config.Items[containers[container]] //setup a currentItem object to pull params from
+      for (let item in JSONItems) {
+        let currentItem = JSONItems[item] //setup a currentItem object to pull params from
 
         if (items[currentItem.id] == undefined) {
-          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Warning!!`, "white", "red"); //Not checking for logging enabled as this is catastrophic
-          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Object '${containers[container]}' with ID ${currentItem.id} is not found in SPT database - please check on https://db.sp-tarkov.com/`, "white", "red");
+          Logger.log(`{[${modName} : ${version}]} : ERROR! : Object '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
           continue;
         }
 
         //DO ALL THE THINGS
         if (config.Settings.Logging) {
-          Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Rejigging '${containers[container]}', ID: ${currentItem.id}`, "white", "green");
+          Logger.log(`{[${modName} : ${version}]} : Rejigging '${item}', ID: ${currentItem.id}`, "white", "green");
         }
         if (currentItem.Enabled) {
-          this.addtoItemFilter(currentItem.id, currentItem.filterIDs);
+          this.addToItemFilter(currentItem.id, currentItem.filterIDs);
           this.setItemInternalSize(currentItem.id, currentItem.H_cells, currentItem.V_cells);
           this.setItemPrice(currentItem.id, currentItem.Price_Multiplier);
         } else {
-          if (config.Settings.Logging) {
-            Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : '${containers[container]}', ID: ${currentItem.id} is not enabled for rejigging; skipping.`, "red");
-          }
+          Logger.log(`{[${modName} : ${version}]} : WARNING : '${item}', ID: ${currentItem.id} is not enabled for rejigging; skipping.`, "red"); //Warn without checking logging
         }
       }
     }
 
-
     //Work Complete.
     if (config.Settings.Logging) {
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ----- Rejiggling complete -----`, "white", "green")
+      Logger.log(`{[${modName} : ${version}]} : ----- Rejiggling complete -----`, "white", "green")
     }
   }
 
+  /** ============================== */
   /** ====== Helper functions ====== */
 
   setItemInternalSize(id, newHorizontal, newVertical) {
     items[id]._props.Grids[0]._props.cellsH = newHorizontal;
     items[id]._props.Grids[0]._props.cellsV = newVertical;
     if (config.Settings.Logging) {
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Resized ${id} to: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "white", "blue");
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : -----`);
+      Logger.log(`{[${modName} : ${version}]} : Resized ${id} to: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "white", "blue");
+      Logger.log(`{[${modName} : ${version}]} : -----`);
     }
   }
 
@@ -81,21 +76,21 @@ class Mod {
     let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
 
     if (config.Settings.Logging) {
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ${id} flea price: : ${fleaPrice}`, "white", "blue")
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ${id} handbook price : ${hbPrice}`, "white", "blue")
+      Logger.log(`{[${modName} : ${version}]} : ${id} flea price: : ${fleaPrice}`, "white", "blue")
+      Logger.log(`{[${modName} : ${version}]} : ${id} handbook price : ${hbPrice}`, "white", "blue")
     }
 
     //Set new prices
     this.setHandbookPrice(id, newHbPrice);
     fleaTable[id] = newFleaPrice
     if (config.Settings.Logging) {
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ${id} NEW flea price : ${newFleaPrice}`, "white", "cyan")
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : ${id} NEW handbook price : ${newHbPrice}`, "white", "cyan")
-      Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : -----`)
+      Logger.log(`{[${modName} : ${version}]} : ${id} NEW flea price : ${newFleaPrice}`, "white", "cyan")
+      Logger.log(`{[${modName} : ${version}]} : ${id} NEW handbook price : ${newHbPrice}`, "white", "cyan")
+      Logger.log(`{[${modName} : ${version}]} : -----`)
     }
   }
 
-  addtoItemFilter(id, additionalItems) {
+  addToItemFilter(id, additionalItems) {
     // Should add a check to make sure the additional items are valid in the items DB
     if (additionalItems === "") {
       if (config.Settings.Logging) {
@@ -103,8 +98,8 @@ class Mod {
       }
     } else {
       if (config.Settings.Logging) {
-        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Adding ${additionalItems} to filter of ${id}`, "white", "magenta")
-        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Was ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "white", "magenta")
+        Logger.log(`{[${modName} : ${version}]} : Adding ${additionalItems} to filter of ${id}`, "white", "magenta")
+        Logger.log(`{[${modName} : ${version}]} : Was ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "white", "magenta")
       }
       for (const itemKey in additionalItems) {
         items[id]
@@ -116,8 +111,8 @@ class Mod {
           .push(additionalItems[itemKey]);
       }
       if (config.Settings.Logging) {
-        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "yellow", "magenta")
-        Logger.log(`{[${this.mod.name} : ${this.mod.version}]} : -----`)
+        Logger.log(`{[${modName} : ${version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "yellow", "magenta")
+        Logger.log(`{[${modName} : ${version}]} : -----`)
       }
     }
   }

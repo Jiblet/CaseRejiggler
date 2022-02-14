@@ -26,7 +26,7 @@
 			"filterIDs": ["5448ecbe4bdc2d60728b4568", "619cbf9e0a7c3a1a2731940a", "567849dd4bdc2d150f8b456e"]
 		},
 		"THICC Weapons Case": {
-			"Enabled": true,
+			"Enabled": false,
 			"id": "5b6d9ce188a4501afc1b2b25",
 			"H_cells": 8,
 			"V_cells": 15,
