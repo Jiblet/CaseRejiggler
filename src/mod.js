@@ -24,7 +24,6 @@ class Mod {
     //Check we're enabled in config and rejig the cases using the values in config.json
     if (config.Settings.Enabled) {
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : ----- Enabled - Begin the rejigging -----`, "white", "green")
       }
 
@@ -33,7 +32,6 @@ class Mod {
         if (items[currentItem.id] == undefined) {
           Logger.log(`{[${modName} : ${version}]} : ERROR : Item '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
           if (logging) {
-            const logging = config.Settings.Logging;
             Logger.log(`{[${modName} : ${version}]} : -----`); //I know, I know.
           }
           continue;
@@ -41,7 +39,6 @@ class Mod {
 
         //DO ALL THE THINGS
         if (logging) {
-          const logging = config.Settings.Logging;
           Logger.log(`{[${modName} : ${version}]} : Rejigging '${item}', ID: ${currentItem.id}`, "green");
         }
         if (currentItem.Enabled) {
@@ -52,7 +49,6 @@ class Mod {
           Logger.log(`{[${modName} : ${version}]} : WARNING : '${item}', ID: ${currentItem.id} is not enabled for rejigging; skipped.`, "red"); //Warn without checking logging
         }
         if (logging) {
-          const logging = config.Settings.Logging;
           Logger.log(`{[${modName} : ${version}]} : Rejigging of '${item}', ID: ${currentItem.id} completed`, "green");
           Logger.log(`{[${modName} : ${version}]} : -----`);
         }
@@ -64,7 +60,6 @@ class Mod {
 
     //Work Complete.
     if (logging) {
-      const logging = config.Settings.Logging;
       Logger.log(`{[${modName} : ${version}]} : ----- Rejigging complete -----`, "white", "green")
     }
   }
@@ -79,13 +74,11 @@ class Mod {
       this.checkCellSize(items[id]._props.Grids[0]._props.cellsV, newVertical)) {
 
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : Resized ${id} from: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "blue");
       }
       items[id]._props.Grids[0]._props.cellsH = newHorizontal;
       items[id]._props.Grids[0]._props.cellsV = newVertical;
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : Resized ${id} to: ${items[id]._props.Grids[0]._props.cellsH} x ${items[id]._props.Grids[0]._props.cellsV}`, "cyan");
       }
     } else {
@@ -107,9 +100,9 @@ class Mod {
       let newHbPrice = Math.round(hbPrice * priceMultiplier) //rounding so we dont get weird fractions of rubles
 
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : ${id} flea price: : ${fleaPrice}`, "blue")
         Logger.log(`{[${modName} : ${version}]} : ${id} handbook price : ${hbPrice}`, "blue")
+        Logger.log(`{[${modName} : ${version}]} : x ${priceMultiplier} price multiplier, gives:`, "blue")
       }
 
       //Set new prices
@@ -127,13 +120,11 @@ class Mod {
   addToItemFilter(id, additionalItems) {
     if (additionalItems === "") { //are there any additional items?
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : No additional filter items`, "magenta");
         return; //nothing to do , so back we go.
       }
     } else {
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : Adding ${additionalItems} to filter of ${id}`, "magenta")
         Logger.log(`{[${modName} : ${version}]} : Was ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "magenta")
       }
@@ -152,7 +143,6 @@ class Mod {
           .push(additionalItems[itemKey]);
       }
       if (logging) {
-        const logging = config.Settings.Logging;
         Logger.log(`{[${modName} : ${version}]} : Now ${items[id]._props.Grids[0]._props.filters[0].Filter}`, "magenta")
       }
     }
@@ -180,7 +170,9 @@ class Mod {
         if (newVal >= oldVal) {
           return true
         } else {
-          if (logging) {Logger.log(`{[${modName} : ${version}]} : WARNING: New Cell Size value of ${newVal} is equal to or larger than old Value of ${oldVal}, be careful or be poor!`, "red");}
+          if (logging) {
+            Logger.log(`{[${modName} : ${version}]} : WARNING: New Cell Size value of ${newVal} is equal to or larger than old Value of ${oldVal}, be careful or be poor!`, "red");
+          }
           return true
         }
       } else {
@@ -199,7 +191,9 @@ class Mod {
       if ((val >= 0.001) && (val <= 10)) {
         return true
       } else {
-        if (logging) {Logger.log(`{[${modName} : ${version}]} : WARNING: Price Multiplier value: ${val} is out of range 0.001-10, preventing this from getting silly. Skipped.`, "red");}
+        if (logging) {
+          Logger.log(`{[${modName} : ${version}]} : WARNING: Price Multiplier value: ${val} is out of range 0.001-10, preventing this from getting silly. Skipped.`, "red");
+        }
         return false
       }
     } else {
