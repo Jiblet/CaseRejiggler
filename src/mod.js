@@ -28,6 +28,7 @@ class Mod {
       for (let item in JSONItems) {
         let currentItem = JSONItems[item] //setup a currentItem object to pull params from
 
+        //TODO Refactor this and reuse for error id validation
         if (items[currentItem.id] == undefined) {
           Logger.log(`{[${modName} : ${version}]} : ERROR! : Object '${item}' with ID ${currentItem.id} is not found in SPT database - please check ID on https://db.sp-tarkov.com/`, "white", "red");
           continue;
@@ -54,9 +55,9 @@ class Mod {
   }
 
   /** ============================== */
-  /** ====== Helper functions ====== */
+  /** ====== Functions ====== */
 
-  setItemInternalSize(id, newHorizontal, newVertical) {
+  setItemInternalSize(id, newHorizontal, newVertical) { //TODO Verify if integers in reasonable range (1 - 15? 20?), vomit exceptions
     items[id]._props.Grids[0]._props.cellsH = newHorizontal;
     items[id]._props.Grids[0]._props.cellsV = newVertical;
     if (config.Settings.Logging) {
@@ -65,7 +66,8 @@ class Mod {
     }
   }
 
-  setItemPrice(id, priceMultiplier) {
+  setItemPrice(id, priceMultiplier) { //TODO Verify positive numeric in reasonable range (0.001 - 10), vomit exceptions
+    
     //This could be more concise, but keeping it longhand lets you log each step to see where you went wrong...
     //Get current prices
     let fleaPrice = fleaTable[id]
@@ -90,8 +92,7 @@ class Mod {
     }
   }
 
-  addToItemFilter(id, additionalItems) {
-    // Should add a check to make sure the additional items are valid in the items DB
+  addToItemFilter(id, additionalItems) { //TODO Are the IDs in additionalItems actually valid? vomit exceptions
     if (additionalItems === "") {
       if (config.Settings.Logging) {
         Logger.log("No extra filter items", "white", "magenta");
@@ -116,7 +117,7 @@ class Mod {
       }
     }
   }
-  //functions for Handbook pricing
+  //Helper functions for Handbook pricing
   getHandbookPrice(id) {
     for (let i in handbook) {
       if (handbook[i].Id === id) {
