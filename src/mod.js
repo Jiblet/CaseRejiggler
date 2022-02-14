@@ -54,8 +54,8 @@ class Mod {
     }
   }
 
-  /** ============================== */
-  /** ====== Functions ====== */
+  /** ============================= */
+  /** ========= Functions ========= */
 
   setItemInternalSize(id, newHorizontal, newVertical) { //TODO Verify if integers in reasonable range (1 - 15? 20?), vomit exceptions
     items[id]._props.Grids[0]._props.cellsH = newHorizontal;
