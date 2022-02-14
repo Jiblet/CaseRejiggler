@@ -18,7 +18,7 @@ TWCs are annoyingly expensive and irritatingly slim. I don't mind saving up, but
 No changes are made to the filtering of items that are able to go into the TWC.
 
 ## Weapons and Items case changes
-I was annoyed that these were slightly too small to be really useful. So I've made them larger (yay!) and appropriately more expensive (boo!).
+I was annoyed that these were slightly too small to be really useful. So I've made them larger (yay!) and kept the same price for now (also yay!).
 
 ---
 

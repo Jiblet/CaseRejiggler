@@ -1,7 +1,7 @@
 {
 	"Settings": {
 		"Enabled": true,
-		"Logging": true
+		"Logging": false
 	},
 	"Instructions": {
 		"Enabled": "true/false - allow you to skip cases individually if you need to.",
