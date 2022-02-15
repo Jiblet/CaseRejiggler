@@ -51,6 +51,14 @@
 			"V_cells": 10,
 			"Price_Multiplier": 1.0,
 			"filterIDs": ""
+		},
+		"Lucky Scav Junk Box": {
+			"Enabled": true,
+			"id": "5b7c710788a4506dec015957",
+			"H_cells": 20,
+			"V_cells": 16,
+			"Price_Multiplier": 1.0,
+			"filterIDs": ""
 		}
 	}
 }

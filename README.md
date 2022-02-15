@@ -42,7 +42,7 @@ The ```config.json``` file is split out into a few sections:
   * ```"id"```
     * Use https://items.sp-tarkov.com/ to find ID of this item you want to rejig.
   * ```"H_Cells"``` | * How wide you want the case to be internally.
-    * Min 1, Max 15 - can't have you going nuts and I've no idea what Tarkov might do if you go **too** big.
+    * Min 1, Max 20 - can't have you going nuts and I've no idea what Tarkov might do if you go **too** big.
     * Must be a whole number, no double quotes here or it'll think its a string.
     * Be careful if you're making it smaller than normal. See Warnings.
 

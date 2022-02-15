@@ -166,7 +166,7 @@ class Mod {
 
   checkCellSize(oldVal, newVal) {
     if (Number.isInteger(newVal)) {
-      if ((newVal >= 1) && (newVal <= 15)) {
+      if ((newVal >= 1) && (newVal <= 20)) {
         if (newVal >= oldVal) {
           return true
         } else {
@@ -176,7 +176,7 @@ class Mod {
           return true
         }
       } else {
-        Logger.log(`{[${modName} : ${version}]} : ERROR : Cell Size value: ${newVal} is out of range 1-15, preventing this from getting silly. Skipped.`, "white", "red");
+        Logger.log(`{[${modName} : ${version}]} : ERROR : Cell Size value: ${newVal} is out of range 1-20, preventing this from getting silly. Skipped.`, "white", "red");
         return false
       }
     } else {
@@ -203,7 +203,5 @@ class Mod {
       return false
     }
   }
-
 }
-
 module.exports.Mod = Mod;
