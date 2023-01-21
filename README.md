@@ -41,8 +41,7 @@ The ```config.json``` file is split out into a few sections:
     * Allows you to skip cases individually if you need to. Useful for debugging.
   * ```"id"```
     * Use https://items.sp-tarkov.com/ to find ID of this item you want to rejig.
-  * ```"H_Cells"``` | Integer
-    * How wide you want the case to be internally.
+  * ```"H_Cells"``` | * How wide you want the case to be internally.
     * Min 1, Max 20 - can't have you going nuts and I've no idea what Tarkov might do if you go **too** big.
     * Must be a whole number, no double quotes here or it'll think its a string.
     * Be careful if you're making it smaller than normal. See Warnings.
@@ -63,7 +62,7 @@ The ```config.json``` file is split out into a few sections:
 # Adding another case:
 If you'd like to add another case to the list, you should be able to work out how pretty easily, but roughly:
 1. Copy an existing case in the items list.
-2. Add it to the end of the list - watch your commas! The final item shouldn't have a comma after it.
+2. Add it to the end of the list - watch your commas! THe final item shouldn't have a comma after it.
 3. Use https://items.sp-tarkov.com/to get the item ID.
 4. Change Settings.logging to true, or just 🤞cross your fingers🤞 and hope for the best. There's a good chance you'll get lucky, but if not there's a ton of logging that should help you.
 
