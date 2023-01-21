@@ -1,5 +1,5 @@
 # Case Rejiggler
-This mod combines my SICC_Intel mod with some changes I wanted to make to the THICC Weapons case.
+This mod combines my old SICC_Intel mod with some changes I wanted to make to the THICC Weapons case.
 
 Then when I went to make one further change, I decided to rewrite and enormously over engineer it to make it extensible via the config.json file by the end user. **You're welcome!**
 
