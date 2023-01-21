@@ -63,7 +63,7 @@ The ```config.json``` file is split out into a few sections:
 # Adding another case:
 If you'd like to add another case to the list, you should be able to work out how pretty easily, but roughly:
 1. Copy an existing case in the items list.
-2. Add it to the end of the list - watch your commas! THe final item shouldn't have a comma after it.
+2. Add it to the end of the list - watch your commas! The final item shouldn't have a comma after it.
 3. Use https://items.sp-tarkov.com/to get the item ID.
 4. Change Settings.logging to true, or just 🤞cross your fingers🤞 and hope for the best. There's a good chance you'll get lucky, but if not there's a ton of logging that should help you.
 
