@@ -1,10 +1,10 @@
 {
     "name": "CaseRejiggler",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "main": "src/mod.js",
     "license": "MIT",
     "author": "Jiblet",
-    "akiVersion": "3.4.x",
+    "akiVersion": "3.5.x",
     "scripts": {
         "setup": "npm i",
         "build": "node ./packageBuild.ts"
