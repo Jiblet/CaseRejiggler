@@ -5,11 +5,11 @@
 	},
 	"Instructions": {
 		"Enabled": "true/false - allow you to skip cases individually if you need to.",
-		"id": "Use https://items.sp-tarkov.com/ to find ID of this item you want to rejig",
+		"id": "Use https://db.sp-tarkov.com/ to find ID of this item you want to rejig",
 		"H_Cells": "How wide you want the case to be internally - Must be a whole number, no double quotes here. Be careful if you're making it smaller than normal. See Readme.",
 		"V_Cells": "How high you want the case to be internally - Must be a whole number, no double quotes here Be careful if you're making it smaller than normal. See Readme.",
 		"Price_Multiplier": "The new price of this case will be the original price multiplied by this. Use to help balance if you make a case much bigger/more useful, or the reverse - must be between 0.01 and 10, just to stop you going mad. ",
-		"filterIDs": "Make sure this is an array of comma separated IDs - Use https://items.sp-tarkov.com/ to find IDs - no trailing comma"
+		"filterIDs": "Make sure this is an array of comma separated IDs - Use https://db.sp-tarkov.com/ to find IDs - no trailing comma"
 	},
 	"Items": {
 		"Docs Case": {
@@ -59,6 +59,22 @@
 			"V_cells": 16,
 			"Price_Multiplier": 1.0,
 			"filterIDs": ""
+		},
+		"Wallet":{
+			"Enabled": true,
+			"id": "5783c43d2459774bbe137486",
+			"H_cells": 2,
+			"V_cells": 2,
+			"Price_Multiplier": 1.0,
+			"filterIDs": ["59f32bb586f774757e1e8442", "59f32c3b86f77472a31742f0"]
+		},
+		"WZ Wallet":{
+			"Enabled": true,
+			"id": "60b0f6c058e0b0481a09ad11",
+			"H_cells": 3,
+			"V_cells": 2,
+			"Price_Multiplier": 1.0,
+			"filterIDs": ["59f32bb586f774757e1e8442", "59f32c3b86f77472a31742f0"]
 		}
 	}
 }
